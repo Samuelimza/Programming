@@ -1,0 +1,187 @@
+//------------------------------------------------------
+var organisms = [];
+var prevGen = [];
+var currentGen = [];
+var nextGen = [];
+var boost = 1;
+var startingPoint;
+var cycleLength = 200;
+var target;
+var counter = 0;
+var total = 10;
+var generation = 0;
+function setup(){	
+	startingPoint = new Vector(wd/1.2, ht/1.2);
+	target = new Particle(wd/6, ht/6, 20, 1, true);
+	var d = new Date();
+	lastTime = d.getTime();
+	
+	for(i = 0; i < total; i++){
+		organisms.push(new Organism(new DNA()));
+	}
+	
+}
+
+
+
+function draw(){
+	for(var boostCounter = 0; boostCounter < boost; boostCounter++){
+		fillRectangle(0, 0, wd, ht, 255, 255, 255);
+		var d = new Date();
+		currentTime = d.getTime();
+		dt = currentTime - lastTime;
+		
+		for(var j = 0; j < organisms.length; j++){
+			organisms[j].update(counter, dt);
+			organisms[j].show();
+		}
+		
+		for(var m = 0; m < organisms.length; m++){
+			if(organisms[m].edges()){
+				organisms[m].dead = true;
+			}
+			var tempX = organisms[m].pp.pos.x - target.pos.x;
+			var tempY = organisms[m].pp.pos.y - target.pos.y;
+			var t = Math.sqrt(tempX * tempX + tempY * tempY);
+			if(t < (target.r + organisms[m].r) && !organisms[m].dead){
+				organisms[m].completed = true;
+				//console.log(organisms[m]);
+			}
+		}
+		
+		target.show();
+		if(counter == cycleLength - 1){
+			counter = 0;
+			//Do new generation
+			generate();
+			generation++;
+			console.log(generation);
+		}
+		//console.log(Math.floor(1000/dt));
+		lastTime = currentTime;
+		counter++;
+	}
+}
+
+
+
+
+function Organism(dna){
+	this.r = 10;
+	this.dead = false;
+	this.completed = false;
+	this.score = 0;
+	this.pp = new Particle(0, 0, this.r, 1, true);
+	this.pp.pos = copy(startingPoint);
+	//this.pos = copy(startingPoint);
+	//this.vel = new Vector(0, 0);
+	//this.acc = new Vector(0, 0);
+	if(dna){
+		this.DNA = dna;
+	}else{
+		this.DNA = new DNA;
+	}
+	this.copyOrgy = function(){
+		var temp = new Organism();
+		temp.r = this.r;
+		temp.dead = this.dead;
+		temp.completed = this.completed;
+		temp.score = this.score;
+		temp.pp = this.pp.copyParticle();
+		temp.pp.pos = copy(this.pp.pos);
+		temp.pp.mobile = this.pp.mobile;
+		temp.DNA = this.DNA.copyDNA();
+		return temp;
+	}
+	this.show = function(){
+		circle(this.pp.pos.x, this.pp.pos.y, this.pp.r);
+	}
+	this.update = function(counter ,dt){
+		if(!this.dead && !this.completed){
+			this.pp.applyForce(this.DNA.list[counter % cycleLength]);
+			console.log(this.pp.pos.x);
+			this.pp.update(dt);
+		}
+	}
+	this.edges = function(){
+		/*if(this.pp.pos.x > wd - this.pp.r || this.pp.pos.x < this.pp.r){
+			return true;
+		}
+		if(this.pp.pos.y > ht - this.pp.r || this.y < this.pp.r){
+			return true;
+		}*/
+		return false;		
+	}
+	this.calcScore = function(){
+		var d = distance(this.pp.pos.x, this.pp.pos.y, target.pos.x, target.pos.y);
+		this.score = 1/d;
+	}
+	
+	
+}
+
+function DNA(DNA1, DNA2){
+	this.list = [];
+	if(DNA1 && DNA2){
+		//calc baby dna
+		for(var q = 0; q < cycleLength; q++){
+			var P = copy(DNA1.list[q]);
+			var Q = copy(DNA2.list[q]);
+			P.add(Q);
+			P.setMagnitude(0.05);
+			this.list.push(copy(P));
+		}
+		
+	}else{
+		for(var k = 0; k < cycleLength; k++){
+			var r = randomVector();
+			r.setMagnitude(0.05);
+			this.list.push(r);
+		}
+	}
+	this.copyDNA = function(){
+		var newDNA = new DNA();
+		for(var k = 0; k < cycleLength; k++){
+			newDNA.list[k] = copy(this.list[k]);
+		}
+		return newDNA;
+	}
+
+}
+
+function generate(){
+	for(var j = 0; j < organisms.length; j++){
+		organisms[j].calcScore();
+	}
+	matingPoolStuff();
+}
+
+function matingPoolStuff(){
+	var matingPool = [];	
+	var maxScore = 0;
+	for(var a = 0; a < organisms.length; a++){
+		//maxScore thing
+		if(organisms[a].score > maxScore){
+			maxScore = organisms[a].score;
+		}
+		
+	}
+	for(var a = 0; a < organisms.length; a++){
+		organisms[a].score /= maxScore;
+		organisms[a].score *= 100;
+	}
+	for(var a = 0; a < organisms.length; a++){
+		for(var b = 0; b < Math.floor(organisms[a].score); b++){
+			matingPool.push(organisms[a].copyOrgy());
+		}
+	}
+	organisms = [];
+	for(var a = 0; a < total; a++){
+		var index = Math.floor(Math.random() * (matingPool.length));
+		var A = matingPool[index];
+		var index = Math.floor(Math.random() * (matingPool.length));
+		var B = matingPool[index];
+		organisms.push(new Organism(new DNA(A.DNA, B.DNA)));
+	}
+
+}

@@ -1,0 +1,82 @@
+//------------------------------------------------------
+var boost = 1;
+var maxIterations = 500;
+
+var cx = -0.6;
+var cy = 0;
+var scale = 1.25;
+var n = 0.27;
+
+function mouseClick(){
+	cx = map(mouseX, 0, wd, cx + scale, cx - scale);
+	cy = map(mouseY, 0, ht, cy - scale, cy + scale);
+	scale /= 2;
+	n += 0.03
+	console.log(scale);
+	requestAnimationFrame(setup);
+	//circle(mouseX, mouseY, 20);
+}
+
+function setup(){	
+	//var d = new Date();
+	//lastTime = d.getTime();
+	//fillRectangle(0, 0, wd, ht, 255, 0, 0);
+	//translate(wd/2, ht/2);
+	
+	for(var i = 0; i < wd; i++){
+		for(var j = 0; j < ht; j++){
+			var x = map(i, 0, wd, cx + scale, cx - scale);
+			var y = map(j, 0, ht, cy - scale, cy + scale);
+			var c = setColor(x, y);
+			c = Math.pow(c, n);
+			if(c == 1){
+				fillRectangle(i, j, 1, 1, 0, 0, 0);
+			}else{
+				fillRectangle(i, j, 1, 1, 0 , Math.floor(255 * (1 - c)), Math.floor(255 * c));
+			}
+		}
+	}
+	//fillRectangle(0, 0, 200, 200, 255, 255, 0);
+	stop();
+}
+function setColor(zrc, zic){
+	var zr = 0;
+	var zi = 0;
+	var zrsq = 0;
+	var zisq = 0;
+	var n = 0;
+	while(n < maxIterations){
+		//var temp = zr;
+		//zr = zrsq - zisq + zrc;
+		//zi = 2 * temp * zi + zic;
+		zrsq = zr * zr;
+		zisq = zi * zi;
+		
+		if(Math.abs(zrsq + zisq) >= 4){
+			break;
+		}
+		
+		var zzr = zrsq - zisq + zrc;
+		var zzi = 2 * zr * zi + zic;
+		
+		zr = zzr;
+		zi = zzi;
+		
+		n++;
+	}
+	return n / maxIterations;
+}
+
+
+
+/*function draw(){
+	for(var boostCounter = 0; boostCounter < boost; boostCounter++){
+		fillRectangle(0, 0, wd, ht, 255, 255, 255);
+		var d = new Date();
+		currentTime = d.getTime();
+		dt = currentTime - lastTime;
+		
+		//console.log(Math.floor(1000/dt));
+		lastTime = currentTime;
+	}
+}*/

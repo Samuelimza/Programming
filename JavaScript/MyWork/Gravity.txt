@@ -1,0 +1,43 @@
+var G = 1/10;
+var lastTime;
+var currentTime;
+var total;
+var particles = [];
+
+setup(){	
+	total = 0;
+	
+	for(i = 0; i < total; i++){
+		var tM = map(Math.random(), 0, 1, 1, 5);
+		particles.push(new Particle(Math.random()*wd, Math.random()*ht, map(tM, 1, 5, 10, 20), tM, true));
+	}
+
+	particles.push(new Particle(wd/4, ht/2, 10, 10, true));
+	particles[0].vel = new Vector(0, 0.07);
+	particles.push(new Particle(wd/2, ht/2, 30, 200, false));
+	var d = new Date();
+	lastTime = d.getTime();
+	
+draw(){
+	
+	fillRectangle(0, 0, wd, ht, 255, 255, 255);
+	var d = new Date();
+	currentTime = d.getTime();
+	dt = currentTime - lastTime;
+	
+	
+	for(i = 0; i < particles.length; i++){
+		for(j = 0; j < particles.length; j++){
+			if(!(particles[i] == particles[j])){
+				particles[i].applyForce(particles[i].toGravitationalForce(particles[j]));
+			}
+		}
+	}
+	
+	for(i = 0; i < particles.length; i++){
+		particles[i].update(dt);
+		particles[i].show();
+	}
+	rectangle(particles[0].pos.x, particles[0].pos.y, 1, 1);
+	//console.log(Math.floor(1000/dt));
+	lastTime = currentTime;

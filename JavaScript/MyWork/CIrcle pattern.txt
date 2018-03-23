@@ -1,0 +1,23 @@
+//------------------------------------------------------
+
+function mouseClick(){
+	
+}
+
+function setup(){
+	fillRectangle(0, 0, wd, ht, 0, 0, 0);
+	c.strokeStyle = '#ffffff'
+	drawCircle(wd / 2, ht / 2 - 70, 190);
+}
+
+function drawCircle(x, y, d){
+	circle(x, y, d);
+	if(d > 2){
+		drawCircle(x + d, y + d * 0.8, d * 0.5);
+		drawCircle(x - d,  y + d * 0.8, d * 0.5);
+	}
+}
+
+
+function draw(){
+	

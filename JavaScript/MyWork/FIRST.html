@@ -1,0 +1,42 @@
+<html>
+<head>
+	<canvas id = "myCanvas" height = "600" width = "600"></canvas>
+	<button onClick = stop()>STOP</button>
+</head>
+<body>
+	<script src = "drawing.js" type = 'text/javascript'></script>
+	<script src = "program.js" type = 'text/javascript'></script>
+	<script src = "vector.js" type = 'text/javascript'></script>
+	<script src = "general.js" type = 'text/javascript'></script>
+	<script src = "particle.js" type = 'text/javascript'></script>
+	<script>
+		var can = document.getElementById("myCanvas");
+		var c = can.getContext("2d");
+		var wd = can.width;
+		var ht = can.height;
+		var noLoop = false;
+		var mouseX;
+		var mouseY;
+		can.addEventListener("click", setCoordinates, false);
+		function stop(){
+			noLoop = true;
+		}
+		function mainLoop(){
+			draw();
+			if(!noLoop){
+				requestAnimationFrame(mainLoop);
+			}
+		}
+		function setCoordinates(e){
+			var rect = can.getBoundingClientRect();
+			mouseX = e.clientX - rect.left;
+			mouseY = e.clientY - rect.top;
+			mouseClick();
+		}
+		requestAnimationFrame(setup);
+		if(!noLoop){
+			requestAnimationFrame(mainLoop);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+//------------------------------------------------------
+var c1 = 2 * 1.732;
+function mouseClick(){
+	
+}
+
+function setup(){
+	fillRectangle(0, 0, wd, ht, 0, 0, 0);
+	c.strokeStyle = '#ffffff'
+	//line(50, 50, 200, 200);
+	//triangle(200, 200 + 57, 200);
+	
+	drawTriangle(wd / 2, ht / 2 + 57, 200);
+}
+
+function drawTriangle(x, y, d){
+	triangle(x, y, d);
+	if(d > 10){
+		drawTriangle(x, y - d / 1.732, d / 2);
+		drawTriangle(x - d / 2, y + d / c1, d /2);
+		drawTriangle(x + d / 2, y + d / c1, d /2);
+	}
+}
+function triangle(x, y, d){
+	line(Math.floor(x - d / 2), Math.floor(y - d / c1), Math.floor(x + d / 2), Math.floor(y - d / c1));
+	line(Math.floor(x + d / 2), Math.floor(y - d / c1), Math.floor(x), Math.floor(y + d / 1.732));
+	line(Math.floor(x), Math.floor(y + d / 1.732), Math.floor(x - d / 2), Math.floor(y - d / c1));
+}
+
+function draw(){
+	
+}
