@@ -3,8 +3,10 @@
 """
 To Do:
 # Use np functions to append bias, delete delta
-# Fix the accuracy function for one hot compatibility
+# (DONE) Fix the accuracy function for one hot compatibility
 # Implement the cost function
+# Use np.argmax at MARKER
+# If possible clean the train function
 """
 
 import numpy as np
@@ -33,7 +35,7 @@ class NeuralNetwork:
         for i in range(len(self.layerN) - 2, 0, -1):
             delta[i] = self.removeRedundantDelta((delta[i + 1].dot(self.w[i].T)) * self.activate(self.layer[i], True))
         for i in range(len(self.layerN) - 1):
-            self.w[i] += self.layer[i].T.dot(delta[i + 1]) * (1 / self.m)
+            self.w[i] += self.layer[i].T.dot(delta[i + 1]) * (1 / len(Y))
 
     # function to train the NN on passed data
     def train(self, X, Y, epochs, batchSize=None):
@@ -50,7 +52,7 @@ class NeuralNetwork:
             flag = True
 
         for j in range(epochs):
-            print('Epoch:', j)
+            # print('Epoch:', j)
             if flag:
                 i = 0
                 while i + batchSize < self.m:
@@ -67,10 +69,17 @@ class NeuralNetwork:
     def getAccuracy(self, X, Y):
         self.feedForward(X)
         output = self.layer[len(self.layerN) - 1]
-        myass = [round(output[i][0]) for i in range(len(output))]
         count = 0
-        for i in range(len(myass)):
-            if myass[i] == Y[i]:
+        for i in range(len(output)):
+            maxi = 0
+            maxIndex = None
+            # MARKER-------------------------------
+            for j in range(len(output[i])):
+                if output[i][j] > maxi:
+                    maxi = output[i][j]
+                    maxIndex = j
+                output[i][j] = 0
+            if Y[i][maxIndex] == 1:
                 count += 1
         return count / self.m
 
