@@ -25,10 +25,10 @@ class Mass{
   void feelGravitationalForce(Mass m){
     PVector diffVec = m.pos.copy().sub(this.pos.copy());
     float dist2 = diffVec.magSq();
-    //dist2 = constrain(dist2, lowerDist, upperDist);
+    dist2 = constrain(dist2, lowerDist, upperDist);
     float upper = Q * m.m;
     diffVec.normalize();
-    acc.add(diffVec.mult(upper / (100 + dist2)));
+    acc.add(diffVec.mult(upper / (dist2)));
   }
   
   void applyForce(PVector force){
