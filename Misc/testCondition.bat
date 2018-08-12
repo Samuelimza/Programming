@@ -18,5 +18,7 @@ IF %commit%==Y (
 set /p push=Do you want to push(Y/N)?
 IF %push%==Y (
 	git push origin master
+) ELSE (
+	echo fuckoff
 )
 PAUSE
