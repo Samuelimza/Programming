@@ -6,7 +6,7 @@ IF %add%==Y (
 	git add -A
 	
 ) ELSE (
-	echo if dont wanna add then fuckoff
+	echo Why you here man?, FUCKOFF!!
 	PAUSE
 	exit
 )
