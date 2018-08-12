@@ -11,7 +11,7 @@ IF %add%==y (
 	exit
 )
 set /p commit=Do you want to commit(y/n)?
-IF %commit%==Y (
+IF %commit%==y (
 	git commit -m "automatedCommit"
 ) ELSE (
 	echo If you didn't want to commit then why Add?, FUCKOFF!!
