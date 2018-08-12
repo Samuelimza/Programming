@@ -1,7 +1,7 @@
 @echo off
 cd D:\NewFolder\Osama\Programming
 git status
-set /p add=Do you want to add(Y/N)?
+set /p add=Do you want to add(y/n)?
 IF %add%==y (
 	git add -A
 	
