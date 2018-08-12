@@ -18,7 +18,7 @@ IF %commit%==y (
 	PAUSE
 	exit
 )
-set /p push=Do you want to push(Y/N)?
+set /p push=Do you want to push(y/n)?
 IF %push%==Y (
 	git push origin master
 ) ELSE (
