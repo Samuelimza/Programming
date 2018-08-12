@@ -6,6 +6,7 @@ IF %add%==Y (
 	
 ) ELSE (
 	echo fuckoff
+	PAUSE
 	exit
 )
 set /p commit=Do you want to commit(Y/N)?
