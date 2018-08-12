@@ -22,5 +22,7 @@ IF %push%==Y (
 	git push origin master
 ) ELSE (
 	echo fuckoff
+	PAUSE
+	exit
 )
 PAUSE
