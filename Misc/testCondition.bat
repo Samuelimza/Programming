@@ -10,7 +10,7 @@ IF %add%==y (
 	PAUSE
 	exit
 )
-set /p commit=Do you want to commit(Y/N)?
+set /p commit=Do you want to commit(y/n)?
 IF %commit%==Y (
 	git commit -m "automatedCommit"
 ) ELSE (
