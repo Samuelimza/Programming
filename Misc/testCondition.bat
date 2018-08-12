@@ -14,6 +14,7 @@ IF %commit%==Y (
 	git commit -m "automatedCommit"
 ) ELSE (
 	echo fuckoff
+	PAUSE
 	exit
 )
 set /p push=Do you want to push(Y/N)?
