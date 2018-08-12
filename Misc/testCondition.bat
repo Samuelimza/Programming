@@ -11,5 +11,12 @@ IF %add%==Y (
 set /p commit=Do you want to commit(Y/N)?
 IF %commit%==Y (
 	git commit -m "automatedCommit"
+) ELSE (
+	echo fuckoff
+	exit
+)
+set /p push=Do you want to push(Y/N)?
+IF %push%==Y (
+	git push origin master
 )
 PAUSE
