@@ -22,7 +22,7 @@ set /p push=Do you want to push(Y/N)?
 IF %push%==Y (
 	git push origin master
 ) ELSE (
-	echo fuckoff
+	echo if dont wanna push then fuckoff
 	PAUSE
 	exit
 )
