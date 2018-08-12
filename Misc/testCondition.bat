@@ -2,7 +2,7 @@
 cd D:\NewFolder\Osama\Programming
 git status
 set /p add=Do you want to add(Y/N)?
-IF %add%==Y (
+IF %add%==y (
 	git add -A
 	
 ) ELSE (
