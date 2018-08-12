@@ -14,7 +14,7 @@ set /p commit=Do you want to commit(Y/N)?
 IF %commit%==Y (
 	git commit -m "automatedCommit"
 ) ELSE (
-	echo fuckoff
+	echo if dont wanna commit then fuckoff
 	PAUSE
 	exit
 )
