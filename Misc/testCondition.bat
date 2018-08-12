@@ -19,7 +19,7 @@ IF %commit%==y (
 	exit
 )
 set /p push=Do you want to push(y/n)?
-IF %push%==Y (
+IF %push%==y (
 	git push origin master
 ) ELSE (
 	echo I understand you don't want to push yet, just FUCKOFF!!
