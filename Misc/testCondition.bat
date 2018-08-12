@@ -1,3 +1,4 @@
+@echo off
 cd D:\NewFolder\Osama\Programming
 git status
 set /p add=Do you want to add(Y/N)?
