@@ -1,0 +1,6 @@
+A Graph is a collection of nodes and edges in any pattern to make all the different types of graphs.
+Trees and DAGs are categories of graphs which have definite properties and have structure. For trees such as any
+two nodes may have only one edge connecting them, each node (except the root node) has exactly one parent.
+Whereas Directed Acyclic Graphs (DAGs) contain directed edges such that there exists no path from a node 
+that comes back to itself.
+In a DAG a node may contain more than one parent but this is not the case in a tree.

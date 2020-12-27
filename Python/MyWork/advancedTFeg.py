@@ -1,5 +1,6 @@
 from __future__ import print_function
 import tensorflow as tf
+import os
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
@@ -7,13 +8,13 @@ mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
 learning_rate = 0.001
-training_epochs = 100
+training_epochs = 1000
 batch_size = 100
 display_step = 1
 
 # Network Parameters
-n_hidden_1 = 16 # 1st layer number of neurons
-n_hidden_2 = 16 # 2nd layer number of neurons
+n_hidden_1 = 32 # 1st layer number of neurons
+n_hidden_2 = 32 # 2nd layer number of neurons
 n_input = 784 # MNIST data input (img shape: 28*28)
 n_classes = 10 # MNIST total classes (0-9 digits)
 
@@ -74,10 +75,18 @@ with tf.Session() as sess:
         if epoch % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost={:.9f}".format(avg_cost))
     print("Optimization Finished!")
+    print("Architecture: H1 - ", n_hidden_1, ", H2 - ", n_hidden_2)
 
     # Test model
     pred = tf.nn.softmax(logits)  # Apply softmax to logits
     correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(Y, 1))
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    print("Accuracy:", accuracy.eval({X: mnist.test.images, Y: mnist.test.labels}))
+    print("Accuracy:", accuracy.eval({X: mnist.test.images, Y: mnist.test.labels}), ', Epochs: ', training_epochs)
+
+os.system("pause")
+
+'''
+Architecture: H1 -  32 , H2 -  32
+Accuracy: 0.9181, Epochs: 1000
+'''
